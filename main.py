@@ -22,7 +22,7 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.amazon.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
     soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
     if "/" in str_text and "Джерело:" in str_text:
