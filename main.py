@@ -22,7 +22,8 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/search?q={replaced_singer}+{replaced_song}+lyrics")
     soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
     if "/" in str_text and "Джерело:" in str_text:
@@ -34,7 +35,8 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
+        # page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
+        page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
         soup = BeautifulSoup(page_pisni.text, "lxml")
 
         # str_text = soup.text
@@ -52,7 +54,10 @@ def get_song(message):
 
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
         else:
-            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+            # page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+            page_az = requests.get(
+                f"https://www.vpnmentor.com/tools/search-from/search?q={replaced_singer}+{replaced_song}+azlyrics")
+
             soup = BeautifulSoup(page_az.text, "lxml")
 
             # str_text = soup.text
@@ -70,7 +75,8 @@ def get_song(message):
 
 #------------------------------------------ON-HIT---------------------------------------------------------------
             else:
-                page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+                # page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+                page_hit = requests.get(f"https://www.vpnmentor.com/tools/search-from/search?q={replaced_singer}+{replaced_song}+lyrics")
                 soup = BeautifulSoup(page_hit.text, "lxml")
 
                 # str_text = soup.text
@@ -88,7 +94,8 @@ def get_song(message):
 
 #----------------------------------------------------GENIUS-------------------------------------------------------------
                 else:
-                    page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
+                    # page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
+                    page_genius = requests.get(f"https://www.vpnmentor.com/tools/search-from/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
                     soup = BeautifulSoup(page_genius.text, "lxml")
 
                     first_link = soup.find_all("a")[17]['href']
