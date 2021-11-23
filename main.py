@@ -27,7 +27,7 @@ def get_song(message):
 
     str_text = soup.text
     start_index = str_text.index("/")
-    last_index = str_text.index("Текст пісні")
+    # last_index = str_text.index("Текст пісні")
 
     # result_text = str_text[start_index: last_index]
     result_text = str_text[start_index:]
