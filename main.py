@@ -26,11 +26,12 @@ def get_song(message):
     soup = BeautifulSoup(page.text, "lxml")
 
     str_text = soup.text
-    start_index = str_text.index("/")
-    last_index = str_text.index("Текст пісні")
-
-    result_text = str_text[start_index: last_index]
-    song_bot.send_message(message.chat.id, result_text)
+    # start_index = str_text.index("/")
+    # last_index = str_text.index("Текст пісні")
+    #
+    # result_text = str_text[start_index: last_index]
+    # song_bot.send_message(message.chat.id, result_text)
+    song_bot.send_message(message.chat.id, str_text)
 
 
 song_bot.infinity_polling()
