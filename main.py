@@ -32,7 +32,7 @@ def get_song(message):
         result_text = str_text[start_index: last_index]
         song_bot.send_message(message.chat.id, result_text)
 
-#--------------------------------------PISNI.UA-------------------------------------------------------------------
+#--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
         page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
         soup = BeautifulSoup(page_pisni.text, "lxml")
