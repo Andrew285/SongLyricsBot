@@ -6,7 +6,6 @@ import requests
 song_bot = telebot.TeleBot("2128007635:AAHuDH8KQlA_RwNDSHE_v2ME2I4tHizdWV8")
 
 replaced_singer = ""
-# replaced_song = ""
 
 @song_bot.message_handler(content_types=["text"])
 def get_singer(message):
@@ -22,30 +21,44 @@ def get_song(message):
     replaced_song = mssg.replace(" ", "+")
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
-    page = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
-    soup = BeautifulSoup(page.text, "lxml")
-
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
-    start_index = str_text.index("/")
-    # last_index = str_text.index("Текст пісні")
+    if "/" in str_text and "Musixmatch" in str_text:
+        start_index = str_text.index("/")
+        last_index = str_text.index("Musixmatch")
 
-    # result_text = str_text[start_index: last_index]
-    result_text = str_text[start_index:]
-    song_bot.send_message(message.chat.id, result_text)
-    # song_bot.send_message(message.chat.id, str_text)
+        result_text = str_text[start_index: last_index]
+        song_bot.send_message(message.chat.id, result_text)
+    else:
+        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
+        soup = BeautifulSoup(page_pisni.text, "lxml")
 
+        # str_text = soup.text
+        first_link = soup.find_all("a")[17]['href']
+        new_page = requests.get(f"https://www.google.com/{first_link}")
+        new_soup = BeautifulSoup(new_page.text, "lxml")
+
+        str_text = new_soup.text
+        if "Друк" in str_text and "ІНФОРМАЦІЯ" in str_text:
+            start_index = str_text.index(f"Друк") + 4
+            last_index = str_text.index(f"ІНФОРМАЦІЯ")
+            result_text = str_text[start_index:last_index].strip()
+            song_bot.send_message(message.chat.id, result_text)
+        else:
+            page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+            soup = BeautifulSoup(page_pisni.text, "lxml")
+
+            # str_text = soup.text
+            first_link = soup.find_all("a")[17]['href']
+            new_page = requests.get(f"https://www.google.com/{first_link}")
+            new_soup = BeautifulSoup(new_page.text, "lxml")
+
+            str_text = new_soup.text
+            if "Текст пісні" in str_text and "Writers" in str_text:
+                start_index = str_text.index(f"Текст пісні") + 4
+                last_index = str_text.index(f"Writers")
+                result_text = str_text[start_index:last_index].strip()
+                song_bot.send_message(message.chat.id, result_text)
 
 song_bot.infinity_polling()
-# replaced_singer = "Imagine+Dragons"
-# replaced_song = "Believer"
-#
-# page = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
-# soup = BeautifulSoup(page.text, "lxml")
-#
-# str_text = soup.text
-# # print(str_text)
-# index_find = str_text.index("/")
-# last_index = str_text.index("Текст пісні")
-#
-# result_text = str_text[index_find: last_index]
-# print(result_text)
