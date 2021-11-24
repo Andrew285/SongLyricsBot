@@ -39,13 +39,13 @@ def get_song(message):
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
     if soup:
-        print("Soup")
+        song_bot.send_message(message.chat.id,"Soup")
     elif soup is None:
-        print("Soup is None")
+        song_bot.send_message(message.chat.id,"None")
     elif soup == "":
-        print("empty")
+        song_bot.send_message(message.chat.id,"Empty")
     else:
-        print("Error")
+        song_bot.send_message(message.chat.id,"Error")
 
     str_text = soup.text
     if "/" in str_text and "Джерело:" in str_text:
