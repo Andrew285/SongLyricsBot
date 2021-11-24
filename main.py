@@ -61,9 +61,12 @@ def get_song(message):
 
 
         driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.ua")
-        song_bot.send_message(message.chat.id, driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").text)
-        driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").text)
+        song_bot.send_message(message.chat.id, driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
+        driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
         page = driver.find_element_by_tag_name("body").text
+
+        # result = driver.find_elements_by_xpath("//ol[@id="rso"]/li")[0] # makealistofresults and getthefirstone
+        # result.find_element_by_xpath("./div/h3/a").click()
 
         str_text = page
         song_bot.send_message(message.chat.id, str_text)
