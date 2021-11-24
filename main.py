@@ -31,7 +31,7 @@ def get_song(message):
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
     # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    page_google = requests.head(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", allow_redirects=False)
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", allow_redirects=True)
     song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
         song_bot.send_message(message.chat.id, f"{page_google.status_code}")
