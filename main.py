@@ -30,7 +30,8 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+    # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+    page_google = requests.head(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", allow_redirects=True)
     song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
         song_bot.send_message(message.chat.id, f"{page_google.status_code}")
@@ -47,20 +48,8 @@ def get_song(message):
     else:
         song_bot.send_message(message.chat.id,"Error")
 
-    first_link = soup.find_all("a")[0]['href']
-    new_page = requests.get(f"https://www.google.com/{first_link}")
-    if new_page:
-        song_bot.send_message(message.chat.id,"new_page is")
-    else:
-        song_bot.send_message(message.chat.id,"new_page is not")
 
-    new_soup = BeautifulSoup(new_page.text, "lxml")
-    if new_soup:
-        song_bot.send_message(message.chat.id,"new_soup is")
-    else:
-        song_bot.send_message(message.chat.id,"new_soup is not")
-
-    str_text = new_soup.text
+    str_text = soup.text
     if str_text:
         song_bot.send_message(message.chat.id, str_text[:150])
     else:
