@@ -29,7 +29,7 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", proxies=proxies)
+    page_google = requests.request(method = "GET", url=f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
