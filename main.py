@@ -47,7 +47,20 @@ def get_song(message):
     else:
         song_bot.send_message(message.chat.id,"Error")
 
-    str_text = soup.text
+    first_link = soup.find_all("a")[0]['href']
+    new_page = requests.get(f"https://www.google.com/{first_link}")
+    if new_page:
+        song_bot.send_message(message.chat.id,"new_page is")
+    else:
+        song_bot.send_message(message.chat.id,"new_page is not")
+
+    new_soup = BeautifulSoup(new_page.text, "lxml")
+    if new_soup:
+        song_bot.send_message(message.chat.id,"new_soup is")
+    else:
+        song_bot.send_message(message.chat.id,"new_soup is not")
+
+    str_text = new_soup.text
     if str_text:
         song_bot.send_message(message.chat.id, str_text[:150])
     else:
