@@ -7,12 +7,13 @@ song_bot = telebot.TeleBot("2128007635:AAHuDH8KQlA_RwNDSHE_v2ME2I4tHizdWV8")
 replaced_singer = ""
 
 headers = {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
 }
 
-proxies = {
-    "http": "http://218.252.244.104:80"
-}
+# proxies = {
+#     "http": "http://218.252.244.104:80"
+# }
 
 @song_bot.message_handler(content_types=["text"])
 def get_singer(message):
@@ -29,9 +30,10 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.request(method = "GET", url=f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
+
     str_text = soup.text
     if "/" in str_text and "Джерело:" in str_text:
         start_index = str_text.index("/")
@@ -42,7 +44,7 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", proxies=proxies)
+        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
         soup = BeautifulSoup(page_pisni.text, "lxml")
 
@@ -61,7 +63,7 @@ def get_song(message):
 
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
         else:
-            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", proxies=proxies)
+            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
 
             soup = BeautifulSoup(page_az.text, "lxml")
@@ -81,7 +83,7 @@ def get_song(message):
 
 #------------------------------------------ON-HIT---------------------------------------------------------------
             else:
-                page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers, proxies=proxies)
+                page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
                 # page_hit = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics")
                 soup = BeautifulSoup(page_hit.text, "lxml")
 
@@ -100,7 +102,7 @@ def get_song(message):
 
 #----------------------------------------------------GENIUS-------------------------------------------------------------
                 else:
-                    page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers, proxies=proxies)
+                    page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers)
                     # page_genius = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+genius")
                     soup = BeautifulSoup(page_genius.text, "lxml")
 
