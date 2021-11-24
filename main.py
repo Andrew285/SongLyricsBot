@@ -45,32 +45,10 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
     driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
     page_google = driver.find_element_by_tag_name("body").text
-    song_bot.send_message(message.chat.id, "Page_Google")
-    # if page_google:
-    #     song_bot.send_message(message.chat.id, f"{page_google.status_code}")
-    # else:
-    #     song_bot.send_message(message.chat.id,"No request")
-    # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    # soup = BeautifulSoup(page_google.text, "lxml")
-    # if soup:
-    #     song_bot.send_message(message.chat.id,"Soup")
-    # elif soup is None:
-    #     song_bot.send_message(message.chat.id,"None")
-    # elif soup == "":
-    #     song_bot.send_message(message.chat.id,"Empty")
-    # else:
-    #     song_bot.send_message(message.chat.id,"Error")
 
     str_text = page_google
-    song_bot.send_message(message.chat.id, str_text)
-    # if str_text:
-    #     song_bot.send_message(message.chat.id, str_text[:150])
-    # else:
-    #     song_bot.send_message(message.chat.id, "Problem")
     if "Knowledge Result" in str_text and "Source:" in str_text:
         start_index = str_text.index("Knowledge Result")
         last_index = str_text.index("Source:")
@@ -80,29 +58,21 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        song_bot.send_message(message.chat.id, "Error")
-#         page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
-#         song_bot.send_message(message.chat.id, "page_pisni")
-#         if page_pisni:
-#             song_bot.send_message(message.chat.id, f"{page_pisni.status_code}")
-#         else:
-#             song_bot.send_message(message.chat.id, "No request")
-#         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
-#         soup = BeautifulSoup(page_pisni.text, "lxml")
-#
-#         # str_text = soup.text
-#         first_link = soup.find_all("a")[17]['href']
-#         new_page = requests.get(f"https://www.google.com/{first_link}")
-#         new_soup = BeautifulSoup(new_page.text, "lxml")
-#
-#         str_text = new_soup.text
-#         if "Друк" in str_text and "ІНФОРМАЦІЯ" in str_text:
-#             # print(str_text)
-#             start_index = str_text.index(f"Друк") + 4
-#             last_index = str_text.index(f"ІНФОРМАЦІЯ")
-#             result_text = str_text[start_index:last_index].strip()
-#             song_bot.send_message(message.chat.id, result_text)
-#
+
+
+        driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.ua")
+        driver.get(driver.find_element_by_class_name("iUh30").text)
+        page = driver.find_element_by_tag_name("body").text
+
+        str_text = page
+        song_bot.send_message(message.chat.id, str_text)
+        if "Knowledge Result" in str_text and "Source:" in str_text:
+            start_index = str_text.index("Knowledge Result")
+            last_index = str_text.index("Source:")
+
+            result_text = str_text[start_index: last_index]
+            song_bot.send_message(message.chat.id, result_text)
+
 # #-------------------------------------------AZLYRICS---------------------------------------------------------------
 #         else:
 #             page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
