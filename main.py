@@ -1,6 +1,18 @@
 import telebot
 from bs4 import BeautifulSoup
 import requests
+import os
+from selenium import webdriver   # for webdriver
+from selenium.webdriver.support.ui import WebDriverWait  # for implicit and explict waits
+from selenium.webdriver.chrome.options import Options
+
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 song_bot = telebot.TeleBot("2128007635:AAHuDH8KQlA_RwNDSHE_v2ME2I4tHizdWV8")
 
@@ -34,29 +46,31 @@ def get_song(message):
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
     # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+    # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+    driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    page_google = driver.find_element_by_tag_name("body").text
     song_bot.send_message(message.chat.id, "Page_Google")
-    if page_google:
-        song_bot.send_message(message.chat.id, f"{page_google.status_code}")
-    else:
-        song_bot.send_message(message.chat.id,"No request")
+    # if page_google:
+    #     song_bot.send_message(message.chat.id, f"{page_google.status_code}")
+    # else:
+    #     song_bot.send_message(message.chat.id,"No request")
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    soup = BeautifulSoup(page_google.text, "lxml")
-    if soup:
-        song_bot.send_message(message.chat.id,"Soup")
-    elif soup is None:
-        song_bot.send_message(message.chat.id,"None")
-    elif soup == "":
-        song_bot.send_message(message.chat.id,"Empty")
-    else:
-        song_bot.send_message(message.chat.id,"Error")
+    # soup = BeautifulSoup(page_google.text, "lxml")
+    # if soup:
+    #     song_bot.send_message(message.chat.id,"Soup")
+    # elif soup is None:
+    #     song_bot.send_message(message.chat.id,"None")
+    # elif soup == "":
+    #     song_bot.send_message(message.chat.id,"Empty")
+    # else:
+    #     song_bot.send_message(message.chat.id,"Error")
 
 
-    str_text = soup.text
-    if str_text:
-        song_bot.send_message(message.chat.id, str_text[:150])
-    else:
-        song_bot.send_message(message.chat.id, "Problem")
+    str_text = page_google
+    # if str_text:
+    #     song_bot.send_message(message.chat.id, str_text[:150])
+    # else:
+    #     song_bot.send_message(message.chat.id, "Problem")
     if "/" in str_text and "Джерело:" in str_text:
         start_index = str_text.index("/")
         last_index = str_text.index("Джерело:")
