@@ -38,6 +38,14 @@ def get_song(message):
         song_bot.send_message(message.chat.id,"No request")
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
+    if soup:
+        print("Soup")
+    elif soup is None:
+        print("Soup is None")
+    elif soup == "":
+        print("empty")
+    else:
+        print("Error")
 
     str_text = soup.text
     if "/" in str_text and "Джерело:" in str_text:
