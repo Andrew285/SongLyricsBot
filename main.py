@@ -74,35 +74,35 @@ def get_song(message):
             song_bot.send_message(message.chat.id, result_text)
 
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
+        # else:
+        #     driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+        #     driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
+        #     page = driver.find_element_by_tag_name("body").text
+        #
+        #     str_text = page
+        #     song_bot.send_message(message.chat.id, str_text)
+        #     if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
+        #         start_index = str_text.index("А-Я")
+        #         last_index = str_text.index("Оцініть цю пісню")
+        #
+        #         result_text = str_text[start_index: last_index]
+        #         song_bot.send_message(message.chat.id, result_text)
+#------------------------------------------------------------GENIUS-------------------------------------------------------------
         else:
-            driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+            driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
             driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
             page = driver.find_element_by_tag_name("body").text
 
             str_text = page
             song_bot.send_message(message.chat.id, str_text)
-            if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
-                start_index = str_text.index("А-Я")
-                last_index = str_text.index("Оцініть цю пісню")
+            if "Featuring" in str_text and "About" in str_text:
+                start_index = str_text.index("Featuring")
+                last_index = str_text.index("About")
 
                 result_text = str_text[start_index: last_index]
                 song_bot.send_message(message.chat.id, result_text)
-#------------------------------------------------------------GENIUS-------------------------------------------------------------
             else:
-                driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
-                driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
-                page = driver.find_element_by_tag_name("body").text
-
-                str_text = page
-                song_bot.send_message(message.chat.id, str_text)
-                if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
-                    start_index = str_text.index("А-Я")
-                    last_index = str_text.index("Оцініть цю пісню")
-
-                    result_text = str_text[start_index: last_index]
-                    song_bot.send_message(message.chat.id, result_text)
-                else:
-                    song_bot.send_message(message.chat.id, "Bot can't find song lyrics")
+                song_bot.send_message(message.chat.id, "Bot can't find song lyrics")
 # #------------------------------------------ON-HIT---------------------------------------------------------------
 #             else:
 #                 page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
