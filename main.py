@@ -8,7 +8,8 @@ replaced_singer = ""
 
 headers = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36",
+    "From": "bostapchuk23@gmail.com"
 }
 
 # proxies = {
@@ -31,7 +32,7 @@ def get_song(message):
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
     # page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", allow_redirects=False)
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
     song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
         song_bot.send_message(message.chat.id, f"{page_google.status_code}")
