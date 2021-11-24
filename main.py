@@ -1,6 +1,5 @@
 import telebot
 from bs4 import BeautifulSoup
-import lxml
 import requests
 
 song_bot = telebot.TeleBot("2128007635:AAHuDH8KQlA_RwNDSHE_v2ME2I4tHizdWV8")
@@ -11,9 +10,9 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
 }
 
-# proxies = {
-#
-# }
+proxies = {
+    "https": "http://45.155.203.112:8000"
+}
 
 @song_bot.message_handler(content_types=["text"])
 def get_singer(message):
@@ -30,7 +29,7 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers, proxies=proxies)
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
@@ -43,7 +42,7 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
+        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers, proxies=proxies)
         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
         soup = BeautifulSoup(page_pisni.text, "lxml")
 
@@ -62,7 +61,7 @@ def get_song(message):
 
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
         else:
-            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
+            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers, proxies=proxies)
             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
 
             soup = BeautifulSoup(page_az.text, "lxml")
@@ -82,7 +81,7 @@ def get_song(message):
 
 #------------------------------------------ON-HIT---------------------------------------------------------------
             else:
-                page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+                page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers, proxies=proxies)
                 # page_hit = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics")
                 soup = BeautifulSoup(page_hit.text, "lxml")
 
@@ -101,7 +100,7 @@ def get_song(message):
 
 #----------------------------------------------------GENIUS-------------------------------------------------------------
                 else:
-                    page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers)
+                    page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers, proxies=proxies)
                     # page_genius = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+genius")
                     soup = BeautifulSoup(page_genius.text, "lxml")
 
