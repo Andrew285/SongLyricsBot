@@ -48,6 +48,10 @@ def get_song(message):
         song_bot.send_message(message.chat.id,"Error")
 
     str_text = soup.text
+    if str_text:
+        song_bot.send_message(message.chat.id, str_text[:150])
+    else:
+        song_bot.send_message(message.chat.id, "Problem")
     if "/" in str_text and "Джерело:" in str_text:
         start_index = str_text.index("/")
         last_index = str_text.index("Джерело:")
