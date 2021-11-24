@@ -49,7 +49,7 @@ def get_song(message):
 
     str_text = soup.text
     if str_text:
-        song_bot.send_message(message.chat.id, str_text[:150])
+        song_bot.send_message(message.chat.id, str_text)
     else:
         song_bot.send_message(message.chat.id, "Problem")
     if "/" in str_text and "Джерело:" in str_text:
