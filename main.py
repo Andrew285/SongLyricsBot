@@ -71,9 +71,9 @@ def get_song(message):
     #     song_bot.send_message(message.chat.id, str_text[:150])
     # else:
     #     song_bot.send_message(message.chat.id, "Problem")
-    if "/" in str_text and "Джерело:" in str_text:
-        start_index = str_text.index("/")
-        last_index = str_text.index("Джерело:")
+    if "Knowledge Result" in str_text and "Source:" in str_text:
+        start_index = str_text.index("Knowledge Result")
+        last_index = str_text.index("Source:")
 
         result_text = str_text[start_index: last_index]
         song_bot.send_message(message.chat.id, result_text)
