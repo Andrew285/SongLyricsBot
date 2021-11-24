@@ -31,11 +31,11 @@ def get_song(message):
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
     page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
-    print("Page_Google")
+    song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
-        print("Success")
+        song_bot.send_message(message.chat.id,"Success")
     else:
-        print("No request")
+        song_bot.send_message(message.chat.id,"No request")
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
 
@@ -49,7 +49,12 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
+        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
+        song_bot.send_message(message.chat.id, "page_pisni")
+        if page_pisni:
+            song_bot.send_message(message.chat.id, "Success")
+        else:
+            song_bot.send_message(message.chat.id, "No request")
         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
         soup = BeautifulSoup(page_pisni.text, "lxml")
 
@@ -69,6 +74,11 @@ def get_song(message):
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
         else:
             page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
+            song_bot.send_message(message.chat.id, "page_az")
+            if page_az:
+                song_bot.send_message(message.chat.id, "Success")
+            else:
+                song_bot.send_message(message.chat.id, "No request")
             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
 
             soup = BeautifulSoup(page_az.text, "lxml")
@@ -89,6 +99,11 @@ def get_song(message):
 #------------------------------------------ON-HIT---------------------------------------------------------------
             else:
                 page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
+                song_bot.send_message(message.chat.id, "page_hit")
+                if page_hit:
+                    song_bot.send_message(message.chat.id, "Success")
+                else:
+                    song_bot.send_message(message.chat.id, "No request")
                 # page_hit = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics")
                 soup = BeautifulSoup(page_hit.text, "lxml")
 
@@ -108,6 +123,11 @@ def get_song(message):
 #----------------------------------------------------GENIUS-------------------------------------------------------------
                 else:
                     page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers)
+                    song_bot.send_message(message.chat.id, "page_genius")
+                    if page_genius:
+                        song_bot.send_message(message.chat.id, "Success")
+                    else:
+                        song_bot.send_message(message.chat.id, "No request")
                     # page_genius = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+genius")
                     soup = BeautifulSoup(page_genius.text, "lxml")
 
