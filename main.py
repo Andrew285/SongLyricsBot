@@ -33,7 +33,7 @@ def get_song(message):
     page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
     song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
-        song_bot.send_message(message.chat.id,"Success")
+        song_bot.send_message(message.chat.id, f"{page_google.status_code}")
     else:
         song_bot.send_message(message.chat.id,"No request")
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
@@ -52,7 +52,7 @@ def get_song(message):
         page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua")
         song_bot.send_message(message.chat.id, "page_pisni")
         if page_pisni:
-            song_bot.send_message(message.chat.id, "Success")
+            song_bot.send_message(message.chat.id, f"{page_pisni.status_code}")
         else:
             song_bot.send_message(message.chat.id, "No request")
         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
@@ -76,7 +76,7 @@ def get_song(message):
             page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
             song_bot.send_message(message.chat.id, "page_az")
             if page_az:
-                song_bot.send_message(message.chat.id, "Success")
+                song_bot.send_message(message.chat.id, f"{page_az.status_code}")
             else:
                 song_bot.send_message(message.chat.id, "No request")
             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
@@ -101,7 +101,7 @@ def get_song(message):
                 page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
                 song_bot.send_message(message.chat.id, "page_hit")
                 if page_hit:
-                    song_bot.send_message(message.chat.id, "Success")
+                    song_bot.send_message(message.chat.id, f"{page_hit.status_code}")
                 else:
                     song_bot.send_message(message.chat.id, "No request")
                 # page_hit = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics")
@@ -125,7 +125,7 @@ def get_song(message):
                     page_genius = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius", headers=headers)
                     song_bot.send_message(message.chat.id, "page_genius")
                     if page_genius:
-                        song_bot.send_message(message.chat.id, "Success")
+                        song_bot.send_message(message.chat.id, f"{page_genius.status_code}")
                     else:
                         song_bot.send_message(message.chat.id, "No request")
                     # page_genius = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+genius")
