@@ -61,7 +61,7 @@ def get_song(message):
 
 
         driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.ua")
-        driver.get(driver.find_element_by_class_name("iUh30").text)
+        driver.get(driver.find_element_by_class_name("tF2Cxc").text)
         page = driver.find_element_by_tag_name("body").text
 
         str_text = page
