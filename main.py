@@ -30,7 +30,7 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
     song_bot.send_message(message.chat.id, "Page_Google")
     if page_google:
         song_bot.send_message(message.chat.id, f"{page_google.status_code}")
@@ -49,7 +49,7 @@ def get_song(message):
 
     str_text = soup.text
     if str_text:
-        song_bot.send_message(message.chat.id, str_text[:])
+        song_bot.send_message(message.chat.id, str_text[:150])
     else:
         song_bot.send_message(message.chat.id, "Problem")
     if "/" in str_text and "Джерело:" in str_text:
