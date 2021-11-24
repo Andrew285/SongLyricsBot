@@ -65,6 +65,7 @@ def get_song(message):
         page = driver.find_element_by_tag_name("body").text
 
         str_text = page
+        song_bot.send_message(message.chat.id, str_text)
         if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
             start_index = str_text.index("А-Я")
             last_index = str_text.index("Оцініть цю пісню")
