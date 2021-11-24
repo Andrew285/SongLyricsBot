@@ -30,22 +30,22 @@ headers = {
 #     "http": "http://218.252.244.104:80"
 # }
 
-@song_bot.message_handler(content_types=["text"])
-def get_singer(message):
-    global replaced_singer
-    mssg = message.text
-    replaced_singer = mssg.replace(" ", "+")
-    msg = song_bot.send_message(message.chat.id, "Now enter the song name:")
-    song_bot.register_next_step_handler(msg, get_song)
+# @song_bot.message_handler(content_types=["text"])
+# def get_singer(message):
+#     global replaced_singer
+#     mssg = message.text
+#     replaced_singer = mssg.replace(" ", "+")
+#     msg = song_bot.send_message(message.chat.id, "Now enter the song name:")
+#     song_bot.register_next_step_handler(msg, get_song)
 
+@song_bot.message_handler(content_types=["text"])
 def get_song(message):
-    global replaced_singer
     mssg = message.text
     replaced_song = mssg.replace(" ", "+")
-    song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
+    song_bot.send_message(message.chat.id, f"{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics")
+    driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics")
     page_google = driver.find_element_by_tag_name("body").text
 
     str_text = page_google
@@ -59,16 +59,15 @@ def get_song(message):
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
 
-
-        driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.ua")
+        driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+pisni.ua")
         driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
         page = driver.find_element_by_tag_name("body").text
 
         str_text = page
         song_bot.send_message(message.chat.id, str_text)
-        if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
+        if "А-Я" in str_text and "Copyright" in str_text:
             start_index = str_text.index("А-Я")
-            last_index = str_text.index("Оцініть цю пісню")
+            last_index = str_text.index("Copyright")
 
             result_text = str_text[start_index: last_index]
             song_bot.send_message(message.chat.id, result_text)
@@ -89,7 +88,7 @@ def get_song(message):
         #         song_bot.send_message(message.chat.id, result_text)
 #------------------------------------------------------------GENIUS-------------------------------------------------------------
         else:
-            driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+genius")
+            driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+genius")
             driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
             page = driver.find_element_by_tag_name("body").text
 
