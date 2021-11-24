@@ -29,7 +29,7 @@ def get_song(message):
     song_bot.send_message(message.chat.id, f"{replaced_singer}+{replaced_song}")
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
-    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers, proxies=proxies)
+    page_google = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", proxies=proxies)
     # page_google = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics", headers=headers)
     soup = BeautifulSoup(page_google.text, "lxml")
     str_text = soup.text
@@ -42,7 +42,7 @@ def get_song(message):
 
 #--------------------------------------PISNI.UA------------------------------------------------------------------
     else:
-        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers, proxies=proxies)
+        page_pisni = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", proxies=proxies)
         # page_pisni = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+lyrics+pisni.org.ua", headers=headers)
         soup = BeautifulSoup(page_pisni.text, "lxml")
 
@@ -61,7 +61,7 @@ def get_song(message):
 
 #-------------------------------------------AZLYRICS---------------------------------------------------------------
         else:
-            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers, proxies=proxies)
+            page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", proxies=proxies)
             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
 
             soup = BeautifulSoup(page_az.text, "lxml")
