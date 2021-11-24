@@ -11,7 +11,7 @@ headers = {
 }
 
 proxies = {
-    "https": "http://45.155.203.112:8000"
+    "http": "http://218.252.244.104:80"
 }
 
 @song_bot.message_handler(content_types=["text"])
