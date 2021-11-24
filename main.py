@@ -61,47 +61,32 @@ def get_song(message):
 
 
         driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+pisni.ua")
-        song_bot.send_message(message.chat.id, driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
         driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
         page = driver.find_element_by_tag_name("body").text
 
-        # result = driver.find_elements_by_xpath("//ol[@id="rso"]/li")[0] # makealistofresults and getthefirstone
-        # result.find_element_by_xpath("./div/h3/a").click()
-
         str_text = page
-        song_bot.send_message(message.chat.id, str_text)
-        if "Knowledge Result" in str_text and "Source:" in str_text:
-            start_index = str_text.index("Knowledge Result")
-            last_index = str_text.index("Source:")
+        # song_bot.send_message(message.chat.id, str_text)
+        if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
+            start_index = str_text.index("А-Я")
+            last_index = str_text.index("Оцініть цю пісню")
 
             result_text = str_text[start_index: last_index]
             song_bot.send_message(message.chat.id, result_text)
 
-# #-------------------------------------------AZLYRICS---------------------------------------------------------------
-#         else:
-#             page_az = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics", headers=headers)
-#             song_bot.send_message(message.chat.id, "page_az")
-#             if page_az:
-#                 song_bot.send_message(message.chat.id, f"{page_az.status_code}")
-#             else:
-#                 song_bot.send_message(message.chat.id, "No request")
-#             # page_az = requests.get(f"https://www.vpnmentor.com/tools/search-from/{replaced_singer}+{replaced_song}+azlyrics")
-#
-#             soup = BeautifulSoup(page_az.text, "lxml")
-#
-#             # str_text = soup.text
-#             first_link = soup.find_all("a")[17]['href']
-#             new_page = requests.get(f"https://www.google.com/{first_link}")
-#             new_soup = BeautifulSoup(new_page.text, "lxml")
-#
-#             str_text = new_soup.text
-#             if "Текст пісні" in str_text and "Writers" in str_text:
-#                 # print(str_text)
-#                 start_index = str_text.index(f"Текст пісні") + 4
-#                 last_index = str_text.index(f"Writers")
-#                 result_text = str_text[start_index:last_index].strip()
-#                 song_bot.send_message(message.chat.id, result_text)
-#
+#-------------------------------------------AZLYRICS---------------------------------------------------------------
+        else:
+            driver.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics+azlyrics")
+            driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
+            page = driver.find_element_by_tag_name("body").text
+
+            str_text = page
+            song_bot.send_message(message.chat.id, str_text)
+            if "А-Я" in str_text and "Оцініть цю пісню" in str_text:
+                start_index = str_text.index("А-Я")
+                last_index = str_text.index("Оцініть цю пісню")
+
+                result_text = str_text[start_index: last_index]
+                song_bot.send_message(message.chat.id, result_text)
 # #------------------------------------------ON-HIT---------------------------------------------------------------
 #             else:
 #                 page_hit = requests.get(f"https://www.google.com/search?q={replaced_singer}+{replaced_song}+lyrics", headers=headers)
