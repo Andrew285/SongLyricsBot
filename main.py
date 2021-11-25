@@ -62,10 +62,12 @@ def get_song(message):
         driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+pisni.ua")
         driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
         page = driver.find_elements_by_css_selector("p")
-
+                
         if page:
+            full_text = ""
             for i in page:
-                song_bot.send_message(message.chat.id, i.text)
+                full_text += i.text + "\n"
+            song_bot.send_message(message.chat.id, full_text)
         # if "А-Я" in str_text and "Оцініть" in str_text:
         #     start_index = str_text.index("А-Я")
         #     last_index = str_text.index("Оцініть")
