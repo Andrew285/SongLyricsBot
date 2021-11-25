@@ -65,9 +65,9 @@ def get_song(message):
 
         str_text = page
         song_bot.send_message(message.chat.id, str_text)
-        if "А-Я" in str_text and "Copyright" in str_text:
+        if "А-Я" in str_text and "Оцініть" in str_text:
             start_index = str_text.index("А-Я")
-            last_index = str_text.index("Copyright")
+            last_index = str_text.index("Оцініть")
 
             result_text = str_text[start_index: last_index]
             song_bot.send_message(message.chat.id, result_text)
