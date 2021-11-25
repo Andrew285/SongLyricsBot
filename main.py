@@ -61,7 +61,7 @@ def get_song(message):
 
         driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+pisni.ua")
         driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
-        page = driver.find_element_by_class_name("desc desc-full").text
+        page = driver.find_element_by_tag_name("p").text
 
         if page:
             song_bot.send_message(message.chat.id, page)
