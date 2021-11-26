@@ -28,18 +28,6 @@ headers = {
     "From": "bostapchuk23@gmail.com"
 }
 
-# proxies = {
-#     "http": "http://218.252.244.104:80"
-# }
-
-# @song_bot.message_handler(content_types=["text"])
-# def get_singer(message):
-#     global replaced_singer
-#     mssg = message.text
-#     replaced_singer = mssg.replace(" ", "+")
-#     msg = song_bot.send_message(message.chat.id, "Now enter the song name:")
-#     song_bot.register_next_step_handler(msg, get_song)
-
 counter_song = 0
 song_links = None
 page_url = None
@@ -48,14 +36,9 @@ def get_song(message):
     global counter_song
     global page_url
     mssg = message.text
-    # replaced_song = mssg.replace(" ", "+")
-    # song_bot.send_message(message.chat.id, f"{replaced_song}")
     song_bot.send_message(message.chat.id, "Wait a minute...")
 
     driver.get("https://www.pisni.org.ua/")
-
-    # page = driver.find_element_by_tag_name("body").text
-    # song_bot.send_message(message.chat.id, page)
 
     input_box = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/input[1]")
     input_box.send_keys(f"{mssg}")
@@ -65,21 +48,14 @@ def get_song(message):
 
     page_url = driver.current_url
 
-    # page = driver.find_element_by_tag_name("body").text
-    # song_bot.send_message(message.chat.id, page)
-
-    # song_links = driver.find_elements_by_class_name("li")
-
-    # for i in songs:
-    #     song_bot.send_message(message.chat.id, i.text)
-
     driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song+2}]/td[1]/a").get_attribute("href"))
     song_text = driver.find_element_by_class_name("songwords").text
 
     menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     menu.add(types.KeyboardButton("Previous"),
                    types.KeyboardButton("Next"),
-                    types.KeyboardButton("Type Song"))
+                    types.KeyboardButton("Song Words"),
+             types.KeyboardButton("Author + Song Name"))
     user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
     song_bot.register_next_step_handler(user_choice, choose_song_action)
 
@@ -95,7 +71,8 @@ def choose_song_action(message):
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Previous"),
                  types.KeyboardButton("Next"),
-                 types.KeyboardButton("Type Song"))
+                 types.KeyboardButton("Search By Words"),
+                 types.KeyboardButton("Author + Song Name"))
         user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
         song_bot.register_next_step_handler(user_choice, choose_song_action)
 
@@ -109,57 +86,46 @@ def choose_song_action(message):
             menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
             menu.add(types.KeyboardButton("Previous"),
                      types.KeyboardButton("Next"),
-                     types.KeyboardButton("Type Song"))
+                     types.KeyboardButton("Search By Words"),
+                     types.KeyboardButton("Author + Song Name"))
             user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
             song_bot.register_next_step_handler(user_choice, choose_song_action)
         else:
             song_bot.send_message(message.chat.id, "There is no previous song")
-    elif message.text == "Type Song":
+
+    elif message.text == "Search By Words":
         counter_song = 0
+        song_bot.send_message(message.chat.id, "Type words:")
         song_bot.register_next_step_handler(message.text, get_song)
 
+    elif message.text == "Author + Song Name":
+        counter_song = 0
+        user_song = song_bot.send_message(message.chat.id, "Type:")
+        song_bot.register_next_step_handler(user_song, get_song_az)
 
-#-----------------------------------GOOGLE------------------------------------------------------------------------
-#     driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics")
-#     page_google = driver.find_element_by_tag_name("body").text
-#
-#     str_text = page_google
-#     if "Knowledge Result" in str_text and "Source:" in str_text:
-#         start_index = str_text.index("Knowledge Result")
-#         last_index = str_text.index("Source:")
-#
-#         result_text = str_text[start_index: last_index]
-#         song_bot.send_message(message.chat.id, result_text)
-#
-# #--------------------------------------PISNI.UA------------------------------------------------------------------
-#     else:
-#
-#         driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+pisni.ua")
-#         driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
-#         page = driver.find_elements_by_css_selector("p")
-#
-#         if page:
-#             full_text = ""
-#             for i in page:
-#                 full_text += i.text + "\n"
-#             song_bot.send_message(message.chat.id, full_text)
-#
-#         else:
-#             driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics+genius")
-#             driver.get(driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/a").get_attribute("href"))
-#             page = driver.find_element_by_tag_name("body").text
-#
-#             str_text = page
-#             if "Featuring" in str_text and "About" in str_text:
-#                 start_index = str_text.index("Featuring")
-#                 last_index = str_text.index("About")
-#
-#                 result_text = str_text[start_index: last_index]
-#                 song_bot.send_message(message.chat.id, result_text)
-#             else:
-#                 song_bot.send_message(message.chat.id, "Bot can't find song lyrics")
+def get_song_az(message):
+    mssg = message.text
+    song_bot.send_message(message.chat.id, "Wait a minute...")
 
+    driver.get("https://www.azlyrics.com/")
 
+    input_box = driver.find_element_by_xpath("/html/body/nav[1]/div/div[2]/form/div/div/input")
+    input_box.send_keys(f"{mssg}")
 
+    input_button = driver.find_element_by_xpath("/html/body/nav[1]/div/div[2]/form/div/span/button")
+    input_button.click()
+
+    # page_url = driver.current_url
+
+    driver.get(driver.find_element_by_xpath(f"/html/body/div[2]/div/div/div/table/tbody/tr[1]/td/a").get_attribute("href"))
+    song_text = driver.find_element_by_xpath("/html/body/div[2]/div/div[2]/div[5]").text
+
+    menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    menu.add(types.KeyboardButton("Previous"),
+             types.KeyboardButton("Next"),
+             types.KeyboardButton("Song Words"),
+             types.KeyboardButton("Author + Song Name"))
+    user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+    song_bot.register_next_step_handler(user_choice, choose_song_action)
 
 song_bot.infinity_polling()
