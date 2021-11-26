@@ -121,10 +121,10 @@ def get_song_letras(message):
 
     # page_url = driver.current_url
     search_link = driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
-    driver.get(search_link)
-    song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
+    if search_link:
+        driver.get(search_link)
+        song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
 
-    if song_text:
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Song Words"),
                  types.KeyboardButton("Author + Song Name"))
