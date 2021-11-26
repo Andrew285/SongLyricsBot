@@ -7,6 +7,8 @@ from telebot import types
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait  # for implicit and explict waits
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
+
 
 
 chrome_options = webdriver.ChromeOptions()
@@ -31,6 +33,13 @@ headers = {
 counter_song = 0
 song_links = None
 page_url = None
+
+def check_exists_by_xpath(xpath):
+    try:
+        driver.find_element_by_xpath(xpath)
+    except NoSuchElementException:
+        return False
+    return True
 
 def choose_song_action(message):
     global page_url
@@ -123,9 +132,10 @@ def get_song_pisni_ua(message):
 
     # page_url = driver.current_url
     # if driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").is_displayed():
-    search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
-    song_bot.send_message(message.chat.id, f"{search_link}")
-    if search_link is not None:
+    if check_exists_by_xpath("/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a"):
+
+        search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
+        song_bot.send_message(message.chat.id, f"{search_link}")
         song_bot.send_message(message.chat.id, "1")
 
         driver.get(search_link)
