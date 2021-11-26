@@ -53,6 +53,9 @@ def get_song(message):
     input_button = driver.find_element_by_class_name("icon-tb pisni-icon-search-24")
     input_button.click()
 
+    page = driver.find_element_by_tag_name("body").text
+    song_bot.send_message(message.chat.id, page)
+
     songs = driver.find_elements_by_class_name("li")
 
     for i in songs:
