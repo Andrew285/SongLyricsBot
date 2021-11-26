@@ -128,6 +128,8 @@ def get_song_pisni_ua(message):
 
     input_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/ul/li[2]/form/div[1]/input")
     input_button.click()
+    driver.execute_script("arguments[0].click()", input_button)
+
     song_bot.send_message(message.chat.id, "1")
 
     # page_url = driver.current_url
