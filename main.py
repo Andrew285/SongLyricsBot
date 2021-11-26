@@ -197,7 +197,7 @@ def get_song_letras(message):
     song_bot.send_message(message.chat.id, "2")
 
     # page_url = driver.current_url
-    if driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").is_displayed():
+    if check_exists_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a"):
         search_link = driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
         song_bot.send_message(message.chat.id, "3")
 
