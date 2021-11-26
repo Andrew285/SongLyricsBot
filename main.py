@@ -31,13 +31,6 @@ headers = {
 counter_song = 0
 song_links = None
 page_url = None
-@song_bot.message_handler(content_types=["text"])
-def tell_something(message):
-    menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    menu.add(types.KeyboardButton("Song Words"),
-             types.KeyboardButton("Author + Song Name"))
-    user_choice = song_bot.send_message(message.chat.id, "Choose action", reply_markup=menu)
-    song_bot.register_next_step_handler(user_choice, choose_song_action)
 
 def choose_song_action(message):
     global page_url
@@ -132,5 +125,14 @@ def get_song_letras(message):
              types.KeyboardButton("Author + Song Name"))
     user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
     song_bot.register_next_step_handler(user_choice, choose_song_action)
+
+@song_bot.message_handler(content_types=["text"])
+def tell_something(message):
+    menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    menu.add(types.KeyboardButton("Song Words"),
+             types.KeyboardButton("Author + Song Name"))
+    user_choice = song_bot.send_message(message.chat.id, "Choose action", reply_markup=menu)
+    song_bot.register_next_step_handler(user_choice, choose_song_action)
+
 
 song_bot.infinity_polling()
