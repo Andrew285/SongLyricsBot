@@ -163,7 +163,7 @@ def get_song_genius(message):
     input_box = driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/form/input")
     input_box.send_keys(f"{mssg}")
 
-    input_button = driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/form/div/svg")
+    input_button = driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/form/div/")
     input_button.click()
     song_bot.send_message(message.chat.id, "1")
 
