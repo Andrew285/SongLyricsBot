@@ -131,7 +131,7 @@ def get_song_letras(message):
         user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
         song_bot.register_next_step_handler(user_choice, choose_song_action)
     else:
-        # mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song")
+        mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Letras)")
         # song_bot.register_next_step_handler(mssg, tell_something)
         song_bot.register_next_step_handler(mssg, get_song_pisni_ua)
 
@@ -159,7 +159,7 @@ def get_song_pisni_ua(message):
         user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
         song_bot.register_next_step_handler(user_choice, choose_song_action)
     else:
-        # mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song")
+        mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Pisni)")
         # song_bot.register_next_step_handler(mssg, tell_something)
         song_bot.register_next_step_handler(mssg, get_song_genius)
 
@@ -187,7 +187,7 @@ def get_song_genius(message):
         user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
         song_bot.register_next_step_handler(user_choice, choose_song_action)
     else:
-        mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song")
+        mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Genius)")
         song_bot.register_next_step_handler(mssg, tell_something)
 
 @song_bot.message_handler(content_types=["text"])
