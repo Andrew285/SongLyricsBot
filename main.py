@@ -125,7 +125,7 @@ def get_song_pisni_ua(message):
     # if driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").is_displayed():
     search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
     song_bot.send_message(message.chat.id, f"{search_link}")
-    if search_link is None:
+    if search_link is not None:
         song_bot.send_message(message.chat.id, "1")
 
         driver.get(search_link)
