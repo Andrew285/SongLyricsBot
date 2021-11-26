@@ -115,6 +115,7 @@ def choose_song_action(message):
         else:
             song_bot.send_message(message.chat.id, "There is no previous song")
     elif message.text == "Type Song":
+        counter_song = 0
         song_bot.register_next_step_handler(message.text, get_song)
 
 
