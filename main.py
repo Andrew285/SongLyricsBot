@@ -119,12 +119,17 @@ def get_song_pisni_ua(message):
 
     input_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/ul/li[2]/form/div[1]/input")
     input_button.click()
+    song_bot.send_message(message.chat.id, "1")
 
     # page_url = driver.current_url
-    if driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").is_displayed():
-        search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
+    # if driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").is_displayed():
+    search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
+    if search_link:
+        song_bot.send_message(message.chat.id, "1")
+
         driver.get(search_link)
         song_text = driver.find_element_by_xpath("/html/body/div[3]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div").text
+        song_bot.send_message(message.chat.id, "1")
 
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Song Words"),
@@ -147,6 +152,7 @@ def get_song_genius(message):
 
     input_button = driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/form/div/svg")
     input_button.click()
+    song_bot.send_message(message.chat.id, "1")
 
     # page_url = driver.current_url
     if driver.find_element_by_xpath(f"/html/body/routable-page/ng-outlet/search-results-page/div/div[2]/div[1]/div[1]/search-result-section/div/div[2]/search-result-items/div/search-result-item/div/mini-song-card/a").is_displayed():
