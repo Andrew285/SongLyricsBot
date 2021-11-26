@@ -83,7 +83,7 @@ def choose_song_action(message):
     elif message.text == "Author + Song Name":
         counter_song = 0
         user_song = song_bot.send_message(message.chat.id, "Type:")
-        song_bot.register_next_step_handler(user_song, get_song_pisni_ua)
+        song_bot.register_next_step_handler(user_song, get_song_genius)
 
 def get_song_words(message):
     global counter_song
