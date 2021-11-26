@@ -115,15 +115,20 @@ def get_song_letras(message):
 
     input_box = driver.find_element_by_xpath("/html/body/div[1]/header/div/form/label/input")
     input_box.send_keys(f"{mssg}")
-
+    song_bot.send_message(message.chat.id, "1")
     input_button = driver.find_element_by_xpath("/html/body/div[1]/header/div/form/button")
     input_button.click()
+    song_bot.send_message(message.chat.id, "2")
 
     # page_url = driver.current_url
     search_link = driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
+    song_bot.send_message(message.chat.id, "3")
+
     if search_link:
         driver.get(search_link)
+        song_bot.send_message(message.chat.id, "4")
         song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
+        song_bot.send_message(message.chat.id, "5")
 
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Song Words"),
