@@ -133,7 +133,7 @@ def get_song_letras(message):
     else:
         # mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song")
         # song_bot.register_next_step_handler(mssg, tell_something)
-        song_bot.register_next_step_handler(mssg, )
+        song_bot.register_next_step_handler(mssg, get_song_pisni_ua)
 
 def get_song_pisni_ua(message):
     mssg = message.text
