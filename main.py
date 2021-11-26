@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 from selenium import webdriver   # for webdriver
+from telebot import types
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait  # for implicit and explict waits
 from selenium.webdriver.chrome.options import Options
@@ -39,8 +40,13 @@ headers = {
 #     msg = song_bot.send_message(message.chat.id, "Now enter the song name:")
 #     song_bot.register_next_step_handler(msg, get_song)
 
+counter_song = 0
+song_links = None
+page_url = None
 @song_bot.message_handler(content_types=["text"])
 def get_song(message):
+    global counter_song
+    global page_url
     mssg = message.text
     # replaced_song = mssg.replace(" ", "+")
     # song_bot.send_message(message.chat.id, f"{replaced_song}")
@@ -57,13 +63,55 @@ def get_song(message):
     input_button = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/a[1]")
     input_button.click()
 
+    page_url = driver.current_url
+
     # page = driver.find_element_by_tag_name("body").text
     # song_bot.send_message(message.chat.id, page)
 
-    songs = driver.find_elements_by_class_name("li")
+    # song_links = driver.find_elements_by_class_name("li")
 
-    for i in songs:
-        song_bot.send_message(message.chat.id, i.text)
+    # for i in songs:
+    #     song_bot.send_message(message.chat.id, i.text)
+
+    driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song+2}]/td[1]/a").get_attribute("href"))
+    song_text = driver.find_element_by_class_name("songwords").text
+
+    menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    menu.add(types.KeyboardButton("Previous"),
+                   types.KeyboardButton("Next"))
+    user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+    song_bot.register_next_step_handler(user_choice, choose_song_action)
+
+def choose_song_action(message):
+    global page_url
+    global counter_song
+    if message.text == "Next":
+        counter_song += 1
+        driver.get(f"{page_url}")
+        driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song+2}]/td[1]/a").get_attribute("href"))
+        song_text = driver.find_element_by_class_name("songwords").text
+
+        menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        menu.add(types.KeyboardButton("Previous"),
+                 types.KeyboardButton("Next"))
+        user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+        song_bot.register_next_step_handler(user_choice, choose_song_action)
+
+    elif message.text == "Previous":
+        if counter_song > 0:
+            counter_song -= 1
+            driver.get(f"{page_url}")
+            driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song + 2}]/td[1]/a").get_attribute("href"))
+            song_text = driver.find_element_by_class_name("songwords").text
+
+            menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            menu.add(types.KeyboardButton("Previous"),
+                     types.KeyboardButton("Next"))
+            user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+            song_bot.register_next_step_handler(user_choice, choose_song_action)
+        else:
+            song_bot.answer_callback_query(message.chat.id, "There is no previous song")
+
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
 #     driver.get(f"https://www.google.com/search?q={replaced_song}+lyrics")
