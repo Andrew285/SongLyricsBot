@@ -110,7 +110,9 @@ def choose_song_action(message):
             user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
             song_bot.register_next_step_handler(user_choice, choose_song_action)
         else:
-            song_bot.answer_callback_query(message.chat.id, "There is no previous song")
+            song_bot.send_message(message.chat.id, "There is no previous song")
+    else:
+        song_bot.register_next_step_handler(message.text, get_song)
 
 
 #-----------------------------------GOOGLE------------------------------------------------------------------------
