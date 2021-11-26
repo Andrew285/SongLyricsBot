@@ -48,8 +48,8 @@ def get_song(message):
 
     driver.get("https://www.pisni.org.ua/")
 
-    page = driver.find_element_by_tag_name("body").text
-    song_bot.send_message(message.chat.id, page)
+    # page = driver.find_element_by_tag_name("body").text
+    # song_bot.send_message(message.chat.id, page)
 
     input_box = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/input[1]")
     input_box.send_keys(f"{mssg}")
@@ -57,8 +57,8 @@ def get_song(message):
     input_button = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/a[1]")
     input_button.click()
 
-    page = driver.find_element_by_tag_name("body").text
-    song_bot.send_message(message.chat.id, page)
+    # page = driver.find_element_by_tag_name("body").text
+    # song_bot.send_message(message.chat.id, page)
 
     songs = driver.find_elements_by_class_name("li")
 
