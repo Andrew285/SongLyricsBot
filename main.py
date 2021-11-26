@@ -47,10 +47,14 @@ def get_song(message):
     song_bot.send_message(message.chat.id, "Wait a minute...")
 
     driver.get("https://www.pisni.org.ua/")
-    input_box = driver.find_element_by_class_name("nav_input")
-    input_box.send_keys(mssg)
 
-    input_button = driver.find_element_by_class_name("icon-tb pisni-icon-search-24")
+    page = driver.find_element_by_tag_name("body").text
+    song_bot.send_message(message.chat.id, page)
+
+    input_box = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/input[1]")
+    input_box.send_keys(f"{mssg}")
+
+    input_button = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/a[1]")
     input_button.click()
 
     page = driver.find_element_by_tag_name("body").text
