@@ -73,7 +73,7 @@ def choose_song_action(message):
         else:
             song_bot.send_message(message.chat.id, "There is no previous song")
 
-    elif message.text == "Search By Words":
+    elif message.text == "Song Words":
         counter_song = 0
         song_bot.send_message(message.chat.id, "Type words:")
         song_bot.register_next_step_handler(message.text, get_song_words)
@@ -128,9 +128,7 @@ def get_song_letras(message):
     song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
 
     menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    menu.add(types.KeyboardButton("Previous"),
-             types.KeyboardButton("Next"),
-             types.KeyboardButton("Song Words"),
+    menu.add(types.KeyboardButton("Song Words"),
              types.KeyboardButton("Author + Song Name"))
     user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
     song_bot.register_next_step_handler(user_choice, choose_song_action)
