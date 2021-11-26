@@ -32,31 +32,11 @@ counter_song = 0
 song_links = None
 page_url = None
 @song_bot.message_handler(content_types=["text"])
-def get_song(message):
-    global counter_song
-    global page_url
-    mssg = message.text
-    song_bot.send_message(message.chat.id, "Wait a minute...")
-
-    driver.get("https://www.pisni.org.ua/")
-
-    input_box = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/input[1]")
-    input_box.send_keys(f"{mssg}")
-
-    input_button = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/a[1]")
-    input_button.click()
-
-    page_url = driver.current_url
-
-    driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song+2}]/td[1]/a").get_attribute("href"))
-    song_text = driver.find_element_by_class_name("songwords").text
-
+def tell_something(message):
     menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    menu.add(types.KeyboardButton("Previous"),
-                   types.KeyboardButton("Next"),
-                    types.KeyboardButton("Song Words"),
+    menu.add(types.KeyboardButton("Song Words"),
              types.KeyboardButton("Author + Song Name"))
-    user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+    user_choice = song_bot.send_message(message.chat.id, "Choose action", reply_markup=menu)
     song_bot.register_next_step_handler(user_choice, choose_song_action)
 
 def choose_song_action(message):
@@ -96,29 +76,56 @@ def choose_song_action(message):
     elif message.text == "Search By Words":
         counter_song = 0
         song_bot.send_message(message.chat.id, "Type words:")
-        song_bot.register_next_step_handler(message.text, get_song)
+        song_bot.register_next_step_handler(message.text, get_song_words)
 
     elif message.text == "Author + Song Name":
         counter_song = 0
         user_song = song_bot.send_message(message.chat.id, "Type:")
-        song_bot.register_next_step_handler(user_song, get_song_az)
+        song_bot.register_next_step_handler(user_song, get_song_letras)
 
-def get_song_az(message):
+def get_song_words(message):
+    global counter_song
+    global page_url
     mssg = message.text
     song_bot.send_message(message.chat.id, "Wait a minute...")
 
-    driver.get("https://www.azlyrics.com/")
+    driver.get("https://www.pisni.org.ua/")
 
-    input_box = driver.find_element_by_xpath("/html/body/nav[1]/div/div[2]/form/div/div/input")
+    input_box = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/input[1]")
     input_box.send_keys(f"{mssg}")
 
-    input_button = driver.find_element_by_xpath("/html/body/nav[1]/div/div[2]/form/div/span/button")
+    input_button = driver.find_element_by_xpath("/html/body/div[1]/table/tbody/tr/td[10]/a[1]")
+    input_button.click()
+
+    page_url = driver.current_url
+
+    driver.get(driver.find_element_by_xpath(f"/html/body/table[2]/tbody/tr/td[1]/div/table[2]/tbody/tr[{counter_song+2}]/td[1]/a").get_attribute("href"))
+    song_text = driver.find_element_by_class_name("songwords").text
+
+    menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    menu.add(types.KeyboardButton("Previous"),
+                   types.KeyboardButton("Next"),
+                    types.KeyboardButton("Song Words"),
+             types.KeyboardButton("Author + Song Name"))
+    user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+    song_bot.register_next_step_handler(user_choice, choose_song_action)
+
+def get_song_letras(message):
+    mssg = message.text
+    song_bot.send_message(message.chat.id, "Wait a minute...")
+
+    driver.get("https://www.letras.com/")
+
+    input_box = driver.find_element_by_xpath("/html/body/div[1]/header/div/form/label/input")
+    input_box.send_keys(f"{mssg}")
+
+    input_button = driver.find_element_by_xpath("/html/body/div[1]/header/div/form/button")
     input_button.click()
 
     # page_url = driver.current_url
 
-    driver.get(driver.find_element_by_xpath(f"/html/body/div[2]/div/div/div/table/tbody/tr[1]/td/a").get_attribute("href"))
-    song_text = driver.find_element_by_xpath("/html/body/div[2]/div/div[2]/div[5]").text
+    driver.get(driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href"))
+    song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
 
     menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     menu.add(types.KeyboardButton("Previous"),
