@@ -120,8 +120,8 @@ def get_song_letras(message):
     input_button.click()
 
     # page_url = driver.current_url
-
-    driver.get(driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href"))
+    search_link = driver.find_element_by_xpath(f"/html/body/div[1]/div[1]/div[1]/div[2]/div/div/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
+    driver.get(search_link)
     song_text = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[6]/article/div[2]/div[2]").text
 
     if song_text:
@@ -148,11 +148,11 @@ def get_song_pisni_ua(message):
     input_button.click()
 
     # page_url = driver.current_url
+    search_link = driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href")
+    if search_link:
+        driver.get(search_link)
+        song_text = driver.find_element_by_xpath("/html/body/div[3]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div").text
 
-    driver.get(driver.find_element_by_xpath(f"/html/body/div[3]/div[1]/div[2]/div/div[2]/div/div[1]/div/a").get_attribute("href"))
-    song_text = driver.find_element_by_xpath("/html/body/div[3]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div").text
-
-    if song_text:
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Song Words"),
                  types.KeyboardButton("Author + Song Name"))
@@ -176,11 +176,11 @@ def get_song_genius(message):
     input_button.click()
 
     # page_url = driver.current_url
+    search_link = driver.find_element_by_xpath(f"/html/body/routable-page/ng-outlet/search-results-page/div/div[2]/div[1]/div[1]/search-result-section/div/div[2]/search-result-items/div/search-result-item/div/mini-song-card/a").get_attribute("href")
+    if search_link:
+        driver.get(search_link)
+        song_text = driver.find_element_by_xpath("/html/body/routable-page/ng-outlet/song-page/div/div/div[2]/div[1]/div/defer-compile[1]/lyrics/div/div/section/p").text
 
-    driver.get(driver.find_element_by_xpath(f"/html/body/routable-page/ng-outlet/search-results-page/div/div[2]/div[1]/div[1]/search-result-section/div/div[2]/search-result-items/div/search-result-item/div/mini-song-card/a").get_attribute("href"))
-    song_text = driver.find_element_by_xpath("/html/body/routable-page/ng-outlet/song-page/div/div/div[2]/div[1]/div/defer-compile[1]/lyrics/div/div/section/p").text
-
-    if song_text:
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         menu.add(types.KeyboardButton("Song Words"),
                  types.KeyboardButton("Author + Song Name"))
