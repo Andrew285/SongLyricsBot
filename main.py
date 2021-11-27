@@ -213,40 +213,74 @@ def get_song_letras(message):
         song_bot.register_next_step_handler(user_choice, choose_song_action)
     else:
         song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Letras)")
-        song_bot.register_next_step_handler(message.text, get_song_gl)
+        # song_bot.register_next_step_handler(message.text, get_song_gl)
+        mssg = message.text
+        song_bot.send_message(message.chat.id, "Wait a minute...")
 
+        driver.get("https://www.gl5.ru/")
 
-def get_song_gl(message):
-    mssg = message.text
-    song_bot.send_message(message.chat.id, "Wait a minute...")
+        input_box = driver.find_element_by_xpath(
+            "/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[1]/div/table/tbody/tr/td[1]/input")
+        input_box.send_keys(f"{mssg}")
+        song_bot.send_message(message.chat.id, "1")
+        input_button = driver.find_element_by_xpath(
+            "/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[2]/button")
+        input_button.click()
+        song_bot.send_message(message.chat.id, "2")
 
-    driver.get("https://www.gl5.ru/")
+        # page_url = driver.current_url
+        if check_exists_by_xpath(
+                f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a"):
+            search_link = driver.find_element_by_xpath(
+                f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute(
+                "href")
+            song_bot.send_message(message.chat.id, "3")
 
-    input_box = driver.find_element_by_xpath("/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[1]/div/table/tbody/tr/td[1]/input")
-    input_box.send_keys(f"{mssg}")
-    song_bot.send_message(message.chat.id, "1")
-    input_button = driver.find_element_by_xpath("/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[2]/button")
-    input_button.click()
-    song_bot.send_message(message.chat.id, "2")
+            driver.get(search_link)
+            song_bot.send_message(message.chat.id, "4")
+            song_text = driver.find_element_by_xpath("/html/body/div[2]/div/div[1]/div[1]/div/div[4]").text
+            song_bot.send_message(message.chat.id, "5")
 
-    # page_url = driver.current_url
-    if check_exists_by_xpath(f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a"):
-        search_link = driver.find_element_by_xpath(f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
-        song_bot.send_message(message.chat.id, "3")
-
-        driver.get(search_link)
-        song_bot.send_message(message.chat.id, "4")
-        song_text = driver.find_element_by_xpath("/html/body/div[2]/div/div[1]/div[1]/div/div[4]").text
-        song_bot.send_message(message.chat.id, "5")
-
-        menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-        menu.add(types.KeyboardButton("Song Words"),
-                 types.KeyboardButton("Author + Song Name"))
-        user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
-        song_bot.register_next_step_handler(user_choice, choose_song_action)
-    else:
-        mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Gl5)")
-        song_bot.register_next_step_handler(mssg, get_song_gl)
+            menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            menu.add(types.KeyboardButton("Song Words"),
+                     types.KeyboardButton("Author + Song Name"))
+            user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+            song_bot.register_next_step_handler(user_choice, choose_song_action)
+        else:
+            mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Gl5)")
+            song_bot.register_next_step_handler(mssg, tell_something)
+#
+# def get_song_gl(message):
+#     mssg = message.text
+#     song_bot.send_message(message.chat.id, "Wait a minute...")
+#
+#     driver.get("https://www.gl5.ru/")
+#
+#     input_box = driver.find_element_by_xpath("/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[1]/div/table/tbody/tr/td[1]/input")
+#     input_box.send_keys(f"{mssg}")
+#     song_bot.send_message(message.chat.id, "1")
+#     input_button = driver.find_element_by_xpath("/html/body/header/div/div[2]/div/div/div/div/form/table/tbody/tr/td[2]/button")
+#     input_button.click()
+#     song_bot.send_message(message.chat.id, "2")
+#
+#     # page_url = driver.current_url
+#     if check_exists_by_xpath(f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a"):
+#         search_link = driver.find_element_by_xpath(f"/html/body/header/div/div[2]/div/div/div/div/div/div[5]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div/a").get_attribute("href")
+#         song_bot.send_message(message.chat.id, "3")
+#
+#         driver.get(search_link)
+#         song_bot.send_message(message.chat.id, "4")
+#         song_text = driver.find_element_by_xpath("/html/body/div[2]/div/div[1]/div[1]/div/div[4]").text
+#         song_bot.send_message(message.chat.id, "5")
+#
+#         menu = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+#         menu.add(types.KeyboardButton("Song Words"),
+#                  types.KeyboardButton("Author + Song Name"))
+#         user_choice = song_bot.send_message(message.chat.id, f"{song_text}", reply_markup=menu)
+#         song_bot.register_next_step_handler(user_choice, choose_song_action)
+#     else:
+#         mssg = song_bot.send_message(message.chat.id, "Bot can't find lyrics for the song (Gl5)")
+#         song_bot.register_next_step_handler(mssg, get_song_gl)
 
 
 @song_bot.message_handler(content_types=["text"])
